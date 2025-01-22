@@ -1,0 +1,39 @@
+{
+  "Nodes": [
+    {
+      "NodeId": 0,
+      "IpAddress": "127.0.0.1",
+      "Port": 11001
+    },
+    {
+      "NodeId": 1,
+      "IpAddress": "127.0.0.1",
+      "Port": 11002
+    },
+    {
+      "NodeId": 2,
+      "IpAddress": "127.0.0.1",
+      "Port": 11003
+    },
+    {
+      "NodeId": 3,
+      "IpAddress": "127.0.0.1",
+      "Port": 11004
+    },
+    {
+      "NodeId": 4,
+      "IpAddress": "127.0.0.1",
+      "Port": 11005
+    },
+    {
+      "NodeId": 5,
+      "IpAddress": "127.0.0.1",
+      "Port": 11006
+    },
+    {
+      "NodeId": 6,
+      "IpAddress": "127.0.0.1",
+      "Port": 11007
+    }
+  ]
+}
