@@ -55,45 +55,6 @@ public class UdpHelper
         }
     }
 
-    //public static List<string> PrepareDataChunks(double[,] matrix, double[] vector)
-    //{
-    //    var chunks = new List<string>();
-    //    var sb = new StringBuilder();
-    //    int currentSize = 0;
-    //    int rows = matrix.GetLength(0);
-    //    int cols = matrix.GetLength(1);
-
-    //    for (int i = 0; i < rows; i++)
-    //    {
-    //        var rowBuilder = new StringBuilder();
-    //        for (int j = 0; j < cols; j++)
-    //        {
-    //            rowBuilder.Append(matrix[i, j].ToString("F6", System.Globalization.CultureInfo.InvariantCulture))
-    //                     .Append(' ');
-    //        }
-    //        rowBuilder.Append('|')
-    //                 .Append(vector[i].ToString("F6", System.Globalization.CultureInfo.InvariantCulture));
-    //        string row = rowBuilder.ToString();
-
-    //        if (currentSize + row.Length > MAX_PACKET_SIZE)
-    //        {
-    //            chunks.Add(sb.ToString());
-    //            sb.Clear();
-    //            currentSize = 0;
-    //        }
-
-    //        sb.AppendLine(row);
-    //        currentSize += row.Length + Environment.NewLine.Length;
-    //    }
-
-    //    if (sb.Length > 0)
-    //    {
-    //        chunks.Add(sb.ToString());
-    //    }
-
-    //    return chunks;
-    //}
-
     public static List<string> PrepareDataChunks(double[,] matrix, double[] vector)
     {
         var chunks = new List<string>();

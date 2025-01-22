@@ -20,66 +20,6 @@ public class BlockMatrix
         this.blocksInCol = (int)Math.Ceiling((double)totalCols / blockSize);
     }
 
-    //public (double[,] block, int actualRows, int actualCols) GetBlock(int blockRow, int blockCol)
-    //{
-    //    int startRow = blockRow * blockSize;
-    //    int startCol = blockCol * blockSize;
-
-    //    int actualRows = Math.Min(blockSize, totalRows - startRow);
-    //    int actualCols = Math.Min(blockSize, totalCols - startCol);
-
-    //    if (actualRows <= 0 || actualCols <= 0)
-    //    {
-    //        throw new ArgumentException($"Некорректные размеры блока: {actualRows}x{actualCols}");
-    //    }
-
-    //    double[,] block = new double[actualRows, actualCols];
-
-    //    for (int i = 0; i < actualRows; i++)
-    //    {
-    //        for (int j = 0; j < actualCols; j++)
-    //        {
-    //            block[i, j] = matrix[startRow + i, startCol + j];
-    //        }
-    //    }
-
-    //    return (block, actualRows, actualCols);
-    //}
-    //public (double[,] block, int actualRows, int actualCols) GetBlock(int blockRow, int blockCol)
-    //{
-    //    int startRow = blockRow * blockSize;
-    //    int startCol = blockCol * blockSize;
-
-    //    int actualRows = Math.Min(blockSize, totalRows - startRow);
-    //    int actualCols = Math.Min(blockSize, totalCols - startCol);
-
-    //    Console.WriteLine($"GetBlock[{blockRow}, {blockCol}]: startRow={startRow}, startCol={startCol}, actualRows={actualRows}, actualCols={actualCols}");
-
-    //    if (actualRows <= 0 || actualCols <= 0)
-    //    {
-    //        throw new ArgumentException($"Некорректные размеры блока: {actualRows}x{actualCols}");
-    //    }
-
-    //    double[,] block = new double[actualRows, actualCols];
-
-    //    for (int i = 0; i < actualRows; i++)
-    //    {
-    //        for (int j = 0; j < actualCols; j++)
-    //        {
-    //            if (startRow + i < totalRows && startCol + j < totalCols)
-    //            {
-    //                block[i, j] = matrix[startRow + i, startCol + j];
-    //            }
-    //            else
-    //            {
-    //                Console.WriteLine($"Предупреждение: выход за границы матрицы [{startRow + i}, {startCol + j}]");
-    //            }
-    //        }
-    //    }
-
-    //    return (block, actualRows, actualCols);
-    //}
-
     public (double[,] block, int actualRows, int actualCols) GetBlock(int blockRow, int blockCol)
     {
         int startRow = blockRow * blockSize;

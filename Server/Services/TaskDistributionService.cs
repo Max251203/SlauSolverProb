@@ -14,13 +14,6 @@ public class TaskDistributionService
     private BlockMatrix blockMatrix;
     private double[] vector;
 
-    //public void Initialize(BlockMatrix matrix, double[] vector)
-    //{
-    //    this.blockMatrix = matrix;
-    //    this.vector = vector;
-    //    pendingBlocks.Clear();
-    //    nodeBlocks.Clear();
-    //}
     public void Initialize(BlockMatrix matrix, double[] vector)
     {
         this.blockMatrix = matrix;
