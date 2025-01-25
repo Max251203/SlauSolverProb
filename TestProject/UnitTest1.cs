@@ -2,6 +2,10 @@ using Node.Services;
 using Shared.Models;
 using Shared.Network;
 using Shared.Solvers;
+using Shared.Utils;
+using System.Collections.Concurrent;
+using System.Diagnostics;
+using System.Net;
 using System.Net.Sockets;
 using System.Text.Json;
 
@@ -262,6 +266,197 @@ namespace SlauSolverProb.TestProject
             var vector = new double[] { 1, 1 };
 
             Assert.Throws<InvalidOperationException>(() => solver.Solve(matrix, vector));
+        }
+    }
+
+    public class MatrixTests
+    {
+        [Fact]
+        public void Matrix_Constructor_ShouldCreateValidMatrix()
+        {
+            // Arrange
+            int rows = 3;
+            int cols = 3;
+
+            // Act
+            var matrix = new double[rows, cols];
+
+            // Assert
+            Assert.Equal(rows, matrix.GetLength(0));
+            Assert.Equal(cols, matrix.GetLength(1));
+        }
+
+        [Fact]
+        public void Matrix_IndexerShouldWorkCorrectly()
+        {
+            // Arrange
+            var matrix = new double[2, 2];
+            matrix[0, 0] = 1;
+            matrix[0, 1] = 2;
+            matrix[1, 0] = 3;
+            matrix[1, 1] = 4;
+
+            // Assert
+            Assert.Equal(1, matrix[0, 0]);
+            Assert.Equal(2, matrix[0, 1]);
+            Assert.Equal(3, matrix[1, 0]);
+            Assert.Equal(4, matrix[1, 1]);
+        }
+
+        [Fact]
+        public void Matrix_Clone_ShouldCreateDeepCopy()
+        {
+            // Arrange
+            var originalMatrix = new double[2, 2] { { 1, 2 }, { 3, 4 } };
+
+            // Act
+            var clonedMatrix = (double[,])originalMatrix.Clone();
+
+            // Assert
+            Assert.Equal(originalMatrix, clonedMatrix);
+            Assert.NotSame(originalMatrix, clonedMatrix); // Проверка, что это глубокая копия
+        }
+
+        [Fact]
+        public void Matrix_Indexer_ShouldThrowOnInvalidIndices()
+        {
+            // Arrange
+            var matrix = new double[2, 2];
+
+            // Act & Assert
+            Assert.Throws<IndexOutOfRangeException>(() => matrix[2, 2]);
+        }
+    }
+
+    public class NetworkTests
+    {
+        [Fact]
+        public void UdpConnection_CreateSocket_ShouldCreateValidSocket()
+        {
+            // Arrange & Act
+            var udpClient = new UdpClient(0);
+
+            // Assert
+            Assert.NotNull(udpClient);
+            udpClient.Close();
+        }
+
+        [Fact]
+        public async Task UdpConnection_SendAndReceiveData_ShouldWorkCorrectly()
+        {
+            // Arrange
+            var sender = new UdpClient(0);
+            var receiver = new UdpClient(0);
+            var receiverEndpoint = new IPEndPoint(IPAddress.Loopback, ((IPEndPoint)receiver.Client.LocalEndPoint).Port);
+
+            // Act
+            var data = System.Text.Encoding.UTF8.GetBytes("Test Message");
+            await sender.SendAsync(data, data.Length, receiverEndpoint);
+
+            var receivedResult = await receiver.ReceiveAsync();
+
+            // Assert
+            Assert.Equal("Test Message", System.Text.Encoding.UTF8.GetString(receivedResult.Buffer));
+        }
+
+        [Fact]
+        public void UdpConnection_SendData_ShouldHandleLargeData()
+        {
+            // Arrange
+            var sender = new UdpClient(0);
+            var receiver = new UdpClient(0);
+            var receiverEndpoint = new IPEndPoint(IPAddress.Loopback, ((IPEndPoint)receiver.Client.LocalEndPoint).Port);
+
+            // Act
+            var largeData = new byte[65507]; // Максимальный размер UDP-пакета
+            sender.Send(largeData, largeData.Length, receiverEndpoint);
+
+            var receivedResult = receiver.Receive(ref receiverEndpoint);
+
+            // Assert
+            Assert.Equal(largeData.Length, receivedResult.Length);
+        }
+    }
+    public class LoadTests
+    {
+        [Fact]
+        public async Task MultipleNodesTest()
+        {
+            // Arrange
+            var tasks = new ConcurrentBag<Task>();
+            int nodeCount = 10;
+
+            // Act
+            for (int i = 0; i < nodeCount; i++)
+            {
+                tasks.Add(Task.Run(() =>
+                {
+                    // Симулируем работу узла
+                    Task.Delay(100).Wait();
+                }));
+            }
+
+            await Task.WhenAll(tasks);
+
+            // Assert
+            Assert.Equal(nodeCount, tasks.Count);
+        }
+
+        [Fact]
+        public async Task ConcurrentRequestsTest()
+        {
+            // Arrange
+            var tasks = new ConcurrentBag<Task>();
+            int requestCount = 20;
+
+            // Act
+            for (int i = 0; i < requestCount; i++)
+            {
+                tasks.Add(Task.Run(() =>
+                {
+                    // Симулируем обработку запроса
+                    Task.Delay(100).Wait();
+                }));
+            }
+
+            await Task.WhenAll(tasks);
+
+            // Assert
+            Assert.Equal(requestCount, tasks.Count);
+        }
+    }
+    public class PerformanceTests
+    {
+
+        [Fact]
+        public void MatrixGenerationPerformance()
+        {
+            // Arrange & Act
+            var stopwatch = Stopwatch.StartNew();
+            var (matrix, vector) = MatrixGenerator.Generate(100, 100);
+            stopwatch.Stop();
+
+            // Assert
+            Assert.NotNull(matrix);
+            Assert.NotNull(vector);
+            Assert.True(stopwatch.ElapsedMilliseconds < 100); // Проверяем, что генерация заняла меньше 100 мс
+        }
+
+        [Fact]
+        public void MatrixOperationsPerformance()
+        {
+            // Arrange
+            var matrix = new double[100, 100];
+            var vector = new double[100];
+
+            // Act
+            var stopwatch = Stopwatch.StartNew();
+            var augmentedMatrix = MatrixUtils.CreateAugmentedMatrix(matrix, vector);
+            stopwatch.Stop();
+
+            // Assert
+            Assert.NotNull(augmentedMatrix);
+            Assert.True(stopwatch.ElapsedMilliseconds < 50); // Проверяем, что операция заняла меньше 50 мс
         }
     }
 }

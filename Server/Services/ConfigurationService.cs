@@ -44,7 +44,7 @@ public class ConfigurationService
     {
         return new NodeConfiguration
         {
-            Nodes = Enumerable.Range(0, 7)
+            Nodes = Enumerable.Range(0,5)
                 .Select(i => new NodeInfo
                 {
                     NodeId = i,

@@ -24,16 +24,6 @@
       "NodeId": 4,
       "IpAddress": "127.0.0.1",
       "Port": 11005
-    },
-    {
-      "NodeId": 5,
-      "IpAddress": "127.0.0.1",
-      "Port": 11006
-    },
-    {
-      "NodeId": 6,
-      "IpAddress": "127.0.0.1",
-      "Port": 11007
     }
   ]
 }
